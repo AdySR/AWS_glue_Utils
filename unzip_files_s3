@@ -16,10 +16,14 @@ obj = s3r.Object(
     bucket_name=bucket, key = prefix
 )
 
+key =prefix
+
 buffer = io.BytesIO(obj.get()["Body"].read())
 z = zipfile.ZipFile(buffer)
 list = z.namelist()
 for filerr in list:
+    print(filerr)
+    
     y=z.open(filerr)
     arcname = key + filerr
     x = io.BytesIO(y.read())
