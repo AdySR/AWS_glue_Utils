@@ -15,7 +15,15 @@ job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 """
---additional-python-modules	openpyxl """
+--additional-python-modules	openpyxl 
+
+import pandas as pd
+
+df = pd.read_excel(r's3://s3-ohio/unzipped/employees.xlsx', sheet_name='employees')
+
+print(df)
+
+"""
 
 
 import pandas as pd
