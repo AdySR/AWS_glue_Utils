@@ -1,0 +1,32 @@
+import boto3
+import zipfile
+import io
+from contextlib import closing
+
+s3 = boto3.client("s3")
+bucket = "s3-ohio"
+prefix = 'zipped/employee_2.zip'
+unzip_prefix = "unzipped/"
+
+
+s3 = boto3.client('s3')
+s3r = boto3.resource('s3')
+
+obj = s3r.Object(
+    bucket_name=bucket, key = prefix
+)
+
+buffer = io.BytesIO(obj.get()["Body"].read())
+z = zipfile.ZipFile(buffer)
+list = z.namelist()
+for filerr in list:
+    y=z.open(filerr)
+    arcname = key + filerr
+    x = io.BytesIO(y.read())
+    arcname = key + filerr
+
+    # print(f'{bucket}/{unzip_prefix}{filerr}')
+    s3.upload_fileobj(x, bucket, f'{unzip_prefix}{filerr}')
+    
+    y.close()
+# print(list)
